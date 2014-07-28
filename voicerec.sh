@@ -14,7 +14,7 @@ Introduction
 
 rm /ram/rec.flac
 
-rec --bits 16 --channels 1 --rate 44100 /ram/rec.flac rate 32k silence 1 0.1 3% 1 3.0 3%
+rec --bits 16 --channels 1 --rate 48000 /ram/rec.flac rate 32k silence 1 0.1 3% 1 3.0 3%
 
 let duration=$(mediainfo "--Inform=General;%Duration%" /ram/rec.flac)/1000;
 
