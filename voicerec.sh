@@ -12,18 +12,21 @@
 	sudo mount -a
 Introduction
 
-rm /ram/rec.flac
+path="/ram/rec.flac";
+if [ -a $path ]; then 
+	rm $path 
+fi
 
 echo "Nehme auf.";
 rec --bits 16 --channels 1 --rate 48000 /ram/rec.flac rate 32k silence 1 0.1 3% 1 3.0 3%
 
-let duration=$(mediainfo "--Inform=General;%Duration%" /ram/rec.flac)/1000;
+let duration=$(mediainfo "--Inform=General;%Duration%" $path)/1000;
 
 #Checking it it's longer then 15 seconds, since the Google API v2 has a restriction of 15 seconds anyway and we can sort out content that isn't even meant to be checked here, like longer conversations
 if (( $duration < 15 )); then 	
 	echo "Verarbeite.";
 	# Caching the result into a variable so you can use it in the way you want
-	result=$(curl -X POST --data-binary @'/ram/rec.flac' \
+	result=$(curl -X POST --data-binary @'$path' \
 	--header 'Content-Type: audio/x-flac; rate=44100;' \
 	'https://www.google.com/speech-api/v2/recognize?output=json&lang=de&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw' \
 	| sed -e 's/[{}]/''/g' | awk -F":" '{print $4}'  | awk -F"," '{print $1}' | sed -e 's/^"//'  -e 's/"$//')
