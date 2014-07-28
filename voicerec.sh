@@ -14,13 +14,14 @@ Introduction
 
 rm /ram/rec.flac
 
+echo "Nehme auf.";
 rec --bits 16 --channels 1 --rate 48000 /ram/rec.flac rate 32k silence 1 0.1 3% 1 3.0 3%
 
 let duration=$(mediainfo "--Inform=General;%Duration%" /ram/rec.flac)/1000;
 
-
 #Checking it it's longer then 15 seconds, since the Google API v2 has a restriction of 15 seconds anyway and we can sort out content that isn't even meant to be checked here, like longer conversations
 if (( $duration < 15 )); then 	
+	echo "Verarbeite.";
 	# Caching the result into a variable so you can use it in the way you want
 	result=$(curl -X POST --data-binary @'/ram/rec.flac' \
 	--header 'Content-Type: audio/x-flac; rate=44100;' \
@@ -29,10 +30,12 @@ if (( $duration < 15 )); then
 
 	# I'm using php to work with the results (<? echo $argv[1]; ?>)
 	php5 action.php $result;
+else
+	echo "Aufnahme zu lang!";
 fi
 
 # Re-executing, just comment it out in case you don't want it to listen all the time 
-./voicereg.sh
+./voicerec.sh
 
 
 : <<'Example_Script'
