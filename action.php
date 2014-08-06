@@ -29,7 +29,7 @@
 	if(voiceFound("wetter"))
 	{
 
-		$loc = "GMXX1935"; # Ort (in dem Fall Freden(Leine)
+		$loc = "GMXX1935"; # Ort (in dem Fall Freden(Leine))
 		$weather_arr = parse_ini_string(file_get_contents("http://weather.tuxnet24.de/?id=" . $loc));
 	
 		if(voiceFound("heute"))
