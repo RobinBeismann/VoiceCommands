@@ -26,6 +26,7 @@ let duration=$(mediainfo "--Inform=General;%Duration%" $path)/1000;
 if (( $duration < 15 )); then 	
 	echo "Verarbeite.";
 	# Caching the result into a variable so you can use it in the way you want
+	# This API Key is the one used by Chrome/Chromium btw.
 	result=$(curl -X POST --data-binary @'$path' \
 	--header 'Content-Type: audio/x-flac; rate=44100;' \
 	'https://www.google.com/speech-api/v2/recognize?output=json&lang=de&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw' \
